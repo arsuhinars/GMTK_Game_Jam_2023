@@ -1,91 +1,42 @@
 using UnityEngine;
 using GMTK_2023.Managers;
-using UnityEngine.SceneManagement;
-using System.Collections;
-using TMPro;
 
 namespace GMTK_2023.Controllers
 {
     public class UIController : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI scoreText, soundButtonOne, soundButtonTwo;
-        private bool soundOn = true;
-
-
-        private void Awake() {
-            GameManager.Instance.OnStart += UIOnStart;
-            GameManager.Instance.OnEnd += UIOnEnd;
-            GameManager.Instance.OnPause += UIOnPause;
-            GameManager.Instance.OnResume += UIOnStart;
-            GameManager.Instance.OnScore += UIUpdateScore;
-        }
-
-        private void UIUpdateScore(int newScore)
+        private void Start()
         {
-            scoreText.text = "Points - " + newScore.ToString();
+            GameManager.Instance.OnEnterMenu += OnEnterMenu;
+            GameManager.Instance.OnStart += OnGameStart;
+            GameManager.Instance.OnEnd += OnGameEnd;
+            GameManager.Instance.OnPause += OnGamePause;
+            GameManager.Instance.OnResume += OnGameResume;
         }
 
-        private void UIOnStart()
+        private void OnEnterMenu()
+        {
+            UIManager.Instance.SetView("MainMenuUI");
+        }
+
+        private void OnGameStart()
         {
             UIManager.Instance.SetView("GameUI");
         }
 
-        private void UIOnPause()
+        private void OnGamePause()
         {
             UIManager.Instance.SetView("PauseUI");
         }
 
-        private void UIOnEnd(GameEndReason reason)
+        private void OnGameEnd(GameEndReason reason)
         {
-            Debug.Log(reason);
-            scoreText.text = "Points - 0";
             UIManager.Instance.SetView("GameOverUI");
         }
 
-
-        #region UIButtons
-        public void PauseButton()
+        private void OnGameResume()
         {
-            GameManager.Instance.PauseGame();
+            UIManager.Instance.SetView("GameUI");
         }
-
-        public void UnPauseButton()
-        {
-            GameManager.Instance.ResumeGame();
-        }
-
-        public void QuitButton()
-        {
-            Application.Quit();
-        }
-
-        public void SoundButton()
-        {
-            if(soundOn){
-                soundOn = false;
-                soundButtonOne.text = "Sound Off";
-                soundButtonTwo.text = "Sound Off";
-                //do some Game Manager / Audio Manager volume stuff here.
-            }
-            else {
-                soundOn = true;
-                soundButtonOne.text = "Sound On";
-                soundButtonTwo.text = "Sound On";
-                //do some Game Manager / Audio Manager volume stuff here.
-            }
-        }
-
-        public void StartGame()
-        {
-            GameManager.Instance.StartGame();
-        }
-
-        public void Retry()
-        {
-            scoreText.text = "Points - 0";
-            GameManager.Instance.StartGame();
-        }
-        #endregion
-        
     }
 }
