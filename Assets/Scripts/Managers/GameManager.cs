@@ -8,7 +8,7 @@ namespace GMTK_2023.Managers
 {
     public enum GameState
     {
-        None, Started, Paused, Ended
+        None, InMenu, Started, Paused, Ended
     }
 
     public enum GameEndReason
@@ -18,6 +18,7 @@ namespace GMTK_2023.Managers
 
     public class GameManager : MonoBehaviour
     {
+        public event Action OnEnterMenu;
         public event Action OnStart;
         public event Action<GameEndReason> OnEnd;
         public event Action OnPause;
@@ -30,7 +31,7 @@ namespace GMTK_2023.Managers
         public bool IsStarted => m_state == GameState.Started;
 
         [SerializeField] private GameManagerSettings m_settings;
-        private GameState m_state;
+        private GameState m_state = GameState.None;
         private ValueObserver<int> m_score = new();
         private float m_lastScoreTime = 0f;
 
@@ -76,6 +77,19 @@ namespace GMTK_2023.Managers
             OnResume?.Invoke();
         }
 
+        public void EnterMenu()
+        {
+            if (m_state == GameState.InMenu)
+            {
+                return;
+            }
+
+            m_state = GameState.InMenu;
+            Time.timeScale = 1f;
+
+            OnEnterMenu?.Invoke();
+        }
+
         private void Awake()
         {
             if (Instance == null)
@@ -93,7 +107,7 @@ namespace GMTK_2023.Managers
         {
             // Skip one frame to let components to subscribe on events
             yield return null;
-            StartGame();
+            EnterMenu();
         }
 
         private void Update()

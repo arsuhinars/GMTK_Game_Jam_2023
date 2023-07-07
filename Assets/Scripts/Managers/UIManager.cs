@@ -1,6 +1,5 @@
 ﻿using GMTK_2023.UI;
 using GMTK_2023.Utils;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,7 +14,7 @@ namespace GMTK_2023.Managers
         [SerializeField]
         private SerializableKeyValuePair<string, UIViewBase>[] m_views;
         [SerializeField, Tooltip("Set as empty string to hide all views on start")]
-        private string m_initialView = "";
+        private string m_initialView = "GameUI";
 
         private string m_activeViewName = "";
         private Dictionary<string, UIViewBase> m_viewsDict;
