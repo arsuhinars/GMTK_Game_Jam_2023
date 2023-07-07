@@ -22,6 +22,7 @@ namespace GMTK_2023.Managers
         public event Action<GameEndReason> OnEnd;
         public event Action OnPause;
         public event Action OnResume;
+        public event Action<int> OnScore;
 
         public static GameManager Instance { get; private set; } = null;
 
@@ -93,7 +94,7 @@ namespace GMTK_2023.Managers
         {
             // Skip one frame to let components to subscribe on events
             yield return null;
-            StartGame();
+            //StartGame();
         }
 
         private void Update()
@@ -114,6 +115,7 @@ namespace GMTK_2023.Managers
             {
                 m_lastScoreTime = Time.time;
                 m_score.Value += 1;
+                OnScore?.Invoke(m_score.Value);
             }
         }
     }
