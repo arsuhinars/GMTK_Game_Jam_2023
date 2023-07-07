@@ -1,6 +1,5 @@
 ﻿using GMTK_2023.UI;
 using GMTK_2023.Utils;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

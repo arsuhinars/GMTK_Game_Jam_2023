@@ -625,16 +625,16 @@ GameObject:
   - component: {fileID: 5513474623154159195}
   - component: {fileID: 5757229786366055092}
   - component: {fileID: 3331290141416601778}
-  - component: {fileID: 6817249279146163159}
   - component: {fileID: 3656804880359492912}
   - component: {fileID: 3613153704599169470}
+  - component: {fileID: 6199626556670988286}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5513474623154159195
 RectTransform:
   m_ObjectHideFlags: 0
@@ -695,20 +695,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &6817249279146163159
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1043821862647375269}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b2dccac00ec48c46a18bb610d126688, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_transitionType: 0
-  m_transitionDuration: 0
 --- !u!114 &3656804880359492912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -749,6 +735,22 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
+--- !u!114 &6199626556670988286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043821862647375269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04ceaa46eed01f84f8dd0bb8f6515f09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_transitionType: 0
+  m_transitionDuration: 0
+  m_startButton: {fileID: 2320259333775635187}
+  m_quitButton: {fileID: 4737943226740093123}
 --- !u!1 &1373658325042457307
 GameObject:
   m_ObjectHideFlags: 0
@@ -760,16 +762,16 @@ GameObject:
   - component: {fileID: 1339111022462884171}
   - component: {fileID: 4484560733425042656}
   - component: {fileID: 4329966209595506556}
-  - component: {fileID: 8741628545911952621}
   - component: {fileID: 5105988572367872885}
   - component: {fileID: 5801716353022631302}
+  - component: {fileID: 2303628580444015399}
   m_Layer: 5
   m_Name: PauseMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1339111022462884171
 RectTransform:
   m_ObjectHideFlags: 0
@@ -830,20 +832,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &8741628545911952621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1373658325042457307}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b2dccac00ec48c46a18bb610d126688, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_transitionType: 0
-  m_transitionDuration: 0
 --- !u!114 &5105988572367872885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -884,6 +872,23 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
+--- !u!114 &2303628580444015399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1373658325042457307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba05828f8494cb148841bebd021f0593, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_transitionType: 0
+  m_transitionDuration: 0
+  m_resumeButton: {fileID: 104045677755088536}
+  m_retryButton: {fileID: 3831926596119475728}
+  m_quitButton: {fileID: 5143366116314121600}
 --- !u!1 &1716269238282632548
 GameObject:
   m_ObjectHideFlags: 0
@@ -1592,7 +1597,7 @@ RectTransform:
   - {fileID: 4176268598406913220}
   - {fileID: 5513474623154159195}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1611,9 +1616,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29b176139bcc6f8429772f7b91ec6d10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 283049473402618771}
-  soundButtonOne: {fileID: 6923731482058192769}
-  soundButtonTwo: {fileID: 2162245879341566473}
 --- !u!114 &2536874424375394444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1628,13 +1630,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_views:
   - key: GameUI
-    value: {fileID: 1598024811042234456}
+    value: {fileID: 4120940215142107004}
   - key: PauseUI
-    value: {fileID: 8741628545911952621}
+    value: {fileID: 2303628580444015399}
   - key: GameOverUI
-    value: {fileID: 5206164612747727589}
+    value: {fileID: 549228002223872355}
   - key: MainMenuUI
-    value: {fileID: 6817249279146163159}
+    value: {fileID: 6199626556670988286}
   m_initialView: MainMenuUI
 --- !u!1 &2956530666840776649
 GameObject:
@@ -2878,16 +2880,16 @@ GameObject:
   - component: {fileID: 7366411617408040825}
   - component: {fileID: 5930783489388015598}
   - component: {fileID: 4385036828128357953}
-  - component: {fileID: 1598024811042234456}
   - component: {fileID: 218249233790703141}
   - component: {fileID: 5459734779583117577}
+  - component: {fileID: 4120940215142107004}
   m_Layer: 5
   m_Name: ActiveGame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2339912106698661190
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2983,20 +2985,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &1598024811042234456
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6790106487480637992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b2dccac00ec48c46a18bb610d126688, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_transitionType: 0
-  m_transitionDuration: 0
 --- !u!114 &218249233790703141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3037,6 +3025,22 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
+--- !u!114 &4120940215142107004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6790106487480637992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 201567060cebfd04886835ba22633a6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_transitionType: 0
+  m_transitionDuration: 0
+  m_scoreText: {fileID: 283049473402618771}
+  m_pauseButton: {fileID: 8647547512478946361}
 --- !u!1 &6861440990158832543
 GameObject:
   m_ObjectHideFlags: 0
@@ -3720,16 +3724,16 @@ GameObject:
   - component: {fileID: 4176268598406913220}
   - component: {fileID: 8790917283813279657}
   - component: {fileID: 1705219651492490317}
-  - component: {fileID: 5206164612747727589}
   - component: {fileID: 8833230992874735393}
   - component: {fileID: 4620098895581248592}
+  - component: {fileID: 549228002223872355}
   m_Layer: 5
   m_Name: GameOver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4176268598406913220
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3789,20 +3793,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &5206164612747727589
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8170358450191803359}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b2dccac00ec48c46a18bb610d126688, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_transitionType: 0
-  m_transitionDuration: 0
 --- !u!114 &8833230992874735393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3843,6 +3833,22 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
+--- !u!114 &549228002223872355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8170358450191803359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d5f6285fe0f9674fa79975524d7f44a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_transitionType: 0
+  m_transitionDuration: 0
+  m_retryButton: {fileID: 8375347460987767451}
+  m_quitButton: {fileID: 3361434296988290438}
 --- !u!1 &8469806488446082504
 GameObject:
   m_ObjectHideFlags: 0
