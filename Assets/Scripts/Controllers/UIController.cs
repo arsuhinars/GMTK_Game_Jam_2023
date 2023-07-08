@@ -1,10 +1,15 @@
 using UnityEngine;
 using GMTK_2023.Managers;
+using GMTK_2023.UI;
 
 namespace GMTK_2023.Controllers
 {
     public class UIController : MonoBehaviour
     {
+        public PlayerClickableArea ClickableArea => m_clickableArea;
+
+        [SerializeField] private PlayerClickableArea m_clickableArea;
+
         private void Start()
         {
             GameManager.Instance.OnEnterMenu += OnEnterMenu;
@@ -16,27 +21,27 @@ namespace GMTK_2023.Controllers
 
         private void OnEnterMenu()
         {
-            UIManager.Instance.SetView("MainMenuUI");
+            UIManager.Instance.SetView("MainMenu");
         }
 
         private void OnGameStart()
         {
-            UIManager.Instance.SetView("GameUI");
+            UIManager.Instance.SetView("ActiveGame");
         }
 
         private void OnGamePause()
         {
-            UIManager.Instance.SetView("PauseUI");
+            UIManager.Instance.SetView("Pause");
         }
 
         private void OnGameEnd(GameEndReason reason)
         {
-            UIManager.Instance.SetView("GameOverUI");
+            UIManager.Instance.SetView("GameOver");
         }
 
         private void OnGameResume()
         {
-            UIManager.Instance.SetView("GameUI");
+            UIManager.Instance.SetView("ActiveGame");
         }
     }
 }
