@@ -8,5 +8,7 @@ namespace GMTK_2023.Scriptables
         public float moveSpeed;
         // TODO: replace with moving along fish group
         public Vector2 moveDirection;
+        [Space]
+        public float boundsExtraSpace;
     }
 }

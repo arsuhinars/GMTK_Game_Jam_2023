@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace GMTK_2023.UI
+namespace GMTK_2023.UI.Elements
 {
     public class NavigationButton : Selectable, IPointerClickHandler
     {
