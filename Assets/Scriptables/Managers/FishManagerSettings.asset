@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1102d7a7985a0f14f8ca7767b5c9408f, type: 3}
-  m_Name: Fish Entity Settings
+  m_Script: {fileID: 11500000, guid: 9e8c7193155675c438238a2c382c5169, type: 3}
+  m_Name: FishManagerSettings
   m_EditorClassIdentifier: 
-  wanderTimer: 5
-  m_speed: 4
-  m_rotationSpeed: 4
+  prefab: {fileID: 1453344451178809931, guid: cf67c23160df54e4f8cdcc15b9c5540a, type: 3}
+  fishSwimDepth: 0.2
+  initialFishCount: 10
+  maxFishGroupRadius: 5
+  minFishGroupRadius: 1

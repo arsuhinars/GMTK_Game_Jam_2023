@@ -4,11 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Obstacle
-  - Boat
-  - PointOfInterest
-  - Water
   - Fish
+  - ForceField
+  - FishBait
+  - Obstacle
   layers:
   - Default
   - TransparentFX

@@ -16,6 +16,7 @@ namespace GMTK_2023.Behaviours
                 transform.rotation = Quaternion.LookRotation(m_dir);
             }
         }
+        public float Radius => m_collider.radius;
 
         [SerializeField] private ForceFieldSettings m_settings;
         private SphereCollider m_collider;
