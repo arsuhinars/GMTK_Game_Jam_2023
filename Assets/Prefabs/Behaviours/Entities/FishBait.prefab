@@ -33,7 +33,7 @@ Transform:
   m_Children:
   - {fileID: 1662478406466050496}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &305998470643860608
 Rigidbody:
@@ -95,6 +95,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6818653b79084340826449df16d2f33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_floatingModel: {fileID: 1662478406466050496}
+  m_floatAmplitude: 0.25
+  m_floatPeriod: 2
   m_settings: {fileID: 11400000, guid: 39de3be74486caf48acd0af28ff5a697, type: 2}
   m_triggerSphere: {fileID: 5051003550768055523}
 --- !u!1 &5074148283673099890

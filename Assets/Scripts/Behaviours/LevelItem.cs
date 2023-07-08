@@ -1,4 +1,5 @@
-﻿using GMTK_2023.Controllers;
+﻿using DG.Tweening;
+using GMTK_2023.Controllers;
 using GMTK_2023.Managers;
 using UnityEngine;
 
@@ -10,14 +11,38 @@ namespace GMTK_2023.Behaviours
         public Rigidbody Rigidbody => m_rb;
         public bool IsAlive => m_isAlive;
 
+        [SerializeField] private Transform m_floatingModel;
+        [SerializeField] private float m_floatAmplitude;
+        [SerializeField] private float m_floatPeriod;
         private bool m_isAlive = false;
         private Rigidbody m_rb;
+        private Sequence m_tween;
 
         public void Spawn()
         {
             m_isAlive = true;
             gameObject.SetActive(true);
             m_rb.velocity = Vector3.zero;
+
+            if (m_floatingModel != null)
+            {
+                m_tween = DOTween.Sequence();
+                m_tween.Append(
+                    m_floatingModel.DOLocalMoveY(
+                        m_floatAmplitude, m_floatPeriod * 0.5f
+                    )
+                    .From(-m_floatAmplitude)
+                    .SetEase(Ease.InOutSine)
+                );
+                m_tween.Append(
+                    m_floatingModel.DOLocalMoveY(
+                        -m_floatAmplitude, m_floatPeriod * 0.5f
+                    )
+                    .From(m_floatAmplitude)
+                    .SetEase(Ease.InOutSine)
+                );
+                m_tween.SetLoops(-1);
+            }
         }
 
         public void Kill()
@@ -25,6 +50,12 @@ namespace GMTK_2023.Behaviours
             if (!m_isAlive)
             {
                 return;
+            }
+
+            if (m_tween != null)
+            {
+                m_tween.Kill();
+                m_tween = null;
             }
 
             m_isAlive = false;

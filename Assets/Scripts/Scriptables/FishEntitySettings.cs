@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -12,6 +10,7 @@ namespace GMTK_2023.Scriptables
         public float moveSpeed;
         public float fastMoveSpeed;
         public float minDistanceToInterestedPoint;
+        public float directionSmoothTime;
         [Space]
         public string forceFieldTag;
         public string fishBaitTag;

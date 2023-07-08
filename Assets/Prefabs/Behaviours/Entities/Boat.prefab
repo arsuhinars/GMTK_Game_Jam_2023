@@ -75,6 +75,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b610173b2a28a1429016779b4aca9fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_floatingModel: {fileID: 5092310135464288395}
+  m_floatAmplitude: 0.35
+  m_floatPeriod: 3
   m_settings: {fileID: 11400000, guid: d4581b648c4fb1f43a53aec7f60ba040, type: 2}
   m_fishBaitObject: {fileID: 1654496814905631931}
   m_bombObject: {fileID: 7463499162929667080}

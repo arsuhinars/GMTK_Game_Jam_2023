@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: FishEntitySettings
   m_EditorClassIdentifier: 
   rotationSmoothTime: 0
-  moveSpeed: 1
-  fastMoveSpeed: 2
+  moveSpeed: 2
+  fastMoveSpeed: 4
   minDistanceToInterestedPoint: 0.25
+  directionSmoothTime: 0.3
   forceFieldTag: ForceField
   fishBaitTag: FishBait

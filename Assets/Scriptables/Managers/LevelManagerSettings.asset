@@ -15,8 +15,6 @@ MonoBehaviour:
   waterLevelY: 0
   prefabs:
   - maxCount: 10
-    prefab: {fileID: 8470800406724337530, guid: 54b1978f8da1bc649971879c250ba87d, type: 3}
-  - maxCount: 10
     prefab: {fileID: 949329774799580688, guid: c7a1b36010d32a043a91905ab5e8a25e, type: 3}
   - maxCount: 2
     prefab: {fileID: 3955131391212086884, guid: 137589e3c83e6b94ca14b12430c1c677, type: 3}

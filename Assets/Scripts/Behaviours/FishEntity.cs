@@ -22,8 +22,12 @@ namespace GMTK_2023.Behaviours
         [SerializeField] private FishEntitySettings m_settings;
         private Rigidbody m_rb;
         private bool m_isAlive;
-        private Vector3 m_moveDir;
+
         private bool m_isMovingFast = false;
+        private Vector3 m_targetDir;
+        private Vector3 m_moveDir;
+        private Vector3 m_dirVel;
+
         private Vector3? m_leaderOffset = null;
         private FishBait m_activeBait = null;
         private ForceField m_activeForce = null;
@@ -31,7 +35,7 @@ namespace GMTK_2023.Behaviours
         public void Spawn()
         {
             m_isAlive = true;
-            m_moveDir = RandomUtils.GetRandomVectorInRadius(1f, 1f);
+            m_targetDir = RandomUtils.GetRandomVectorInRadius(1f, 1f);
         }
 
         public void Kill()
@@ -110,7 +114,7 @@ namespace GMTK_2023.Behaviours
             if (MoveToPoint(lead.transform.position + (Vector3)m_leaderOffset))
             {
                 m_isMovingFast = false;
-                m_moveDir = lead.m_moveDir;
+                m_targetDir = lead.m_targetDir;
             }
         }
 
@@ -129,7 +133,7 @@ namespace GMTK_2023.Behaviours
             }
 
             m_isMovingFast = false;
-            m_moveDir = m_activeForce.Direction;
+            m_targetDir = m_activeForce.Direction;
         }
 
         private void HandleMovingToBait()
@@ -151,10 +155,14 @@ namespace GMTK_2023.Behaviours
 
         private void MovingRoutine()
         {
-            if (Mathf.Approximately(m_moveDir.sqrMagnitude, 0f))
+            if (Mathf.Approximately(m_targetDir.sqrMagnitude, 0f))
             {
                 return;
             }
+
+            m_moveDir = Vector3.SmoothDamp(
+                m_moveDir, m_targetDir, ref m_dirVel, m_settings.directionSmoothTime
+            );
 
             var vel = m_moveDir.normalized;
             if (m_isMovingFast)
@@ -180,7 +188,7 @@ namespace GMTK_2023.Behaviours
             if (dist > m_settings.minDistanceToInterestedPoint)
             {
                 m_isMovingFast = true;
-                m_moveDir = point - transform.position;
+                m_targetDir = point - transform.position;
                 return false;
             }
 
