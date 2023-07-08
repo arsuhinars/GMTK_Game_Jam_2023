@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using GMTK_2023.Controllers;
+using UnityEngine;
 
 namespace GMTK_2023.Behaviours
 {
+    [RequireComponent(typeof(Rigidbody))]
     public class LevelItem : PoolItem, ISpawnable
     {
         public bool IsAlive => m_isAlive;
@@ -37,14 +39,28 @@ namespace GMTK_2023.Behaviours
             Kill();
         }
 
-        protected void Awake()
+        protected virtual void Awake()
         {
             m_rb = GetComponent<Rigidbody>();
         }
 
-        protected void Start()
+        protected virtual void Start()
         {
             Spawn();
+        }
+
+        protected virtual void Update()
+        {
+            if (!m_isAlive)
+            {
+                return;
+            }
+
+            var cam = ControllersFacade.Instance.CameraController;
+            if (!cam.ViewBounds.Contains(transform.position))
+            {
+                ReleaseFromPool();
+            }
         }
     }
 }
