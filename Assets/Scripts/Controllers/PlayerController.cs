@@ -14,11 +14,6 @@ namespace GMTK_2023.Controllers
         private PlayerClickableArea m_clickableArea;
         private Vector3 m_dragStartPos;
 
-        private void Awake()
-        {
-            //m_clickArea = FindObjectOfType<PlayerClickableArea>();
-        }
-
         private void Start()
         {
             m_forceField.gameObject.SetActive(false);
