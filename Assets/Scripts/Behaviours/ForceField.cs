@@ -16,15 +16,11 @@ namespace GMTK_2023.Behaviours
         [SerializeField] private ForceFieldSettings m_settings;
         private SphereCollider m_collider;
         private Vector3 m_dir = Vector3.zero;
+        
 
         private void Awake()
         {
             m_collider = GetComponent<SphereCollider>();
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            ForceApplyingRoutine(other);
         }
 
         private void OnTriggerStay(Collider other)
@@ -39,21 +35,17 @@ namespace GMTK_2023.Behaviours
                 return;
             }
 
-            var rb = collider.attachedRigidbody;
-            if (rb == null)
-            {
-                return;
-            }
+            Rigidbody rb = collider.attachedRigidbody;
+            if (rb == null) return;
 
-            float forceFactor = Mathf.Clamp01(
-                Vector3.Distance(
-                    rb.position, m_collider.transform.TransformPoint(m_collider.center)
-                ) / m_collider.radius
-            );
-            float forceVal = m_settings.centerForceValue
-                + (m_settings.borderForceValue - m_settings.centerForceValue) * forceFactor;
+            Vector3 dir = (rb.position - transform.position).normalized;
+            dir.y = 0;
+            // we need the square magnitude of the direction so the force applied is the same regardless of its distance to the object!!!
+            float dist = Vector3.Distance(rb.position,transform.position);
+            
 
-            rb.AddForce(forceVal * m_dir);
+            rb.AddForce(dir * (5f - dist) * Time.deltaTime, ForceMode.Impulse);
+            //because objects closer to the center should have a stronger force we need to subtract the distance from a base force before multiplying the direction.
         }
     }
 }

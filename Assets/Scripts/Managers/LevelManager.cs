@@ -13,7 +13,8 @@ namespace GMTK_2023.Managers
 
         [SerializeField] private LevelManagerSettings m_settings;
         [SerializeField] private Transform m_levelRoot;
-
+        [SerializeField] private Transform m_boat;
+        // boat can be used as root to spawn objects
         private CameraController m_camera;
         private ObjectPool<PoolItem>[] m_pools;
 
@@ -93,15 +94,19 @@ namespace GMTK_2023.Managers
 
             var obj = m_pools[poolIdx].Get();
 
-            var camPos = m_levelRoot.InverseTransformPoint(m_camera.transform.position);
-            camPos.y = 0f;
+            //var camPos = m_levelRoot.InverseTransformPoint(m_camera.transform.position);
+            Vector3 spawnPoint = m_boat.position;
+            spawnPoint.y = 0f;
+
+            //if we want to have spawned objects 'float' up to the surface we can change y 
+            // to ~-3 or something and adjust their script to rise until they are > 0
 
             float angle = Random.Range(0f, 2f * Mathf.PI);
             var p = m_settings.spawnRadius * new Vector3(
                 Mathf.Cos(angle), 0f, Mathf.Sin(angle)
             );
 
-            obj.transform.localPosition = camPos + p;
+            obj.transform.localPosition = spawnPoint + p;
         }
     }
 }
