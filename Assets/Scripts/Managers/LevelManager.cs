@@ -34,7 +34,6 @@ namespace GMTK_2023.Managers
         private void Start()
         {
             CreatePools();
-
             GameManager.Instance.OnStart += OnGameStart;
         }
 
