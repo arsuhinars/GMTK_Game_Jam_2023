@@ -1,10 +1,9 @@
 fileFormatVersion: 2
-guid: 26428c49c8c6c6b4fb3eb013290d419a
+guid: b3a7f58f1bcc9384bbf582c3f8c8a0e1
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - fishEntitySettings: {fileID: 11400000, guid: 7c0ef03bd989cc94d8ec69636179d036, type: 2}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

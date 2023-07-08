@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Obstacle
   - Boat
+  - PointOfInterest
+  - Water
+  - Fish
   layers:
   - Default
   - TransparentFX
