@@ -1,7 +1,5 @@
-﻿using GMTK_2023.Behaviours;
-using GMTK_2023.Managers;
+﻿using GMTK_2023.Managers;
 using GMTK_2023.Scriptables;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace GMTK_2023.Controllers
