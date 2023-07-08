@@ -68,6 +68,14 @@ namespace GMTK_2023.Managers
             {
                 m_pools[i].Clear();
             }
+
+            for (int i = 0; i < m_pools.Length; i++)
+            {
+                while (m_pools[i].CountActive < m_settings.prefabs[i].maxCount)
+                {
+                    SpawnObject(i, true);
+                }
+            }
         }
 
         private void CreatePools()
@@ -81,7 +89,7 @@ namespace GMTK_2023.Managers
             }
         }
 
-        private void SpawnObject(int poolIdx)
+        private void SpawnObject(int poolIdx, bool initialSpawn=false)
         {
             var obj = m_pools[poolIdx].Get();
 
@@ -89,7 +97,16 @@ namespace GMTK_2023.Managers
             var bounds = camera.ViewBounds;
 
             Vector3 pos;
-            if (Random.Range(0, 2) != 0)
+            if (initialSpawn)
+            {
+                // Spawn within view range
+                pos = new Vector3(
+                    Random.Range(bounds.min.x, bounds.max.x),
+                    m_settings.waterLevelY,
+                    Random.Range(bounds.min.z, bounds.max.z)
+                );
+            }
+            else if (Random.Range(0, 2) != 0)
             {
                 // Spawn on the front
                 pos = new Vector3(
