@@ -87,13 +87,13 @@ namespace GMTK_2023.UI
             DisableCanvas();
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             m_canvas = GetComponent<Canvas>();
             m_canvasGroup = GetComponent<CanvasGroup>();
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             DisableCanvas();
         }
