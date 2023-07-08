@@ -1,126 +1,179 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using GMTK_2023.Scriptables;
+using GMTK_2023.Managers;
+using System.Drawing;
+using GMTK_2023.Utils;
+using Unity.VisualScripting;
 
 namespace GMTK_2023.Behaviours
 {
-    enum FishState
+    public enum FishState
     {
-        Wandering,
-        TowardsBait
+        FollowingLeader,
+        MovingAlongForce,
+        MovingToBait
     };
 
-    public class FishEntity : MonoBehaviour
+    [RequireComponent(typeof(Rigidbody))]
+    public class FishEntity : PoolItem, ISpawnable
     {
-        [SerializeField] FishEntitySettings fishEntitySettings;
+        public bool IsAlive => m_isAlive;
 
-        float m_nearestDistance=100f;
+        [SerializeField] private FishEntitySettings m_settings;
+        private Rigidbody m_rb;
+        private bool m_isAlive;
+        private Vector3 m_moveDir;
+        private bool m_isMovingFast = false;
+        private Vector3? m_leaderOffset = null;
+        private FishBait m_activeBait = null;
+        private ForceField m_activeForce = null;
 
-        [SerializeField] GameObject[] pointOfInterests;
-
-        FishState currentState=FishState.Wandering;
-    
-        GameObject m_nearestBoat;
-
-        private Transform m_target;
-        private float m_timer;
-
-        private Rigidbody rb;
-
-        void OnEnable() 
+        public void Spawn()
         {
-            m_timer = fishEntitySettings.wanderTimer;
-            rb = GetComponent<Rigidbody>();
+            m_isAlive = true;
+            m_moveDir = RandomUtils.GetRandomVectorInRadius(1f, 1f);
         }
 
-        void Start()
-        {
-            
-        }
-
-        void Update()
-        {
-            m_timer += Time.deltaTime;
- 
-            if (m_timer >= fishEntitySettings.wanderTimer) 
-            {
-                int chance=Random.Range(0,10);
-                switch(chance)
-                {
-                    case 0:
-                    case 1:
-                    case 2:
-                    case 3:
-                    currentState=FishState.TowardsBait;
-                    break;
-
-                    case 4:
-                    case 5:
-                    case 6:
-                    case 7:
-                    case 8:
-                    case 9:
-                    case 10:
-                    currentState=FishState.Wandering;
-                    break;
-                }
-
-                switch(currentState)
-                {
-                    case FishState.Wandering:
-                    Wandering();
-                    break;
-
-                    case FishState.TowardsBait:
-                    TowardsBait();
-                    break;
-                }
-            }
-
-            transform.position = Vector3.MoveTowards(transform.position, m_target.position, fishEntitySettings.m_speed*Time.deltaTime);
-            var desiredRotation=Quaternion.LookRotation(m_target.position);
-            transform.rotation=Quaternion.Slerp(transform.rotation,desiredRotation,Time.deltaTime*fishEntitySettings.m_rotationSpeed);
-            Vector3 velocity = rb.velocity;
-        }
-
-        public void Wandering()
-        {
-            int randomPoint=Random.Range(0,pointOfInterests.Length);
-            m_target=pointOfInterests[randomPoint].transform;
-            m_timer = 0;
-        }
-
-        public void TowardsBait()
-        {
-            GameObject[] boats=GameObject.FindGameObjectsWithTag("Boat");
-            for(int i=0;i<boats.Length;i++)
-            {
-                float distance=Vector3.Distance(transform.position,boats[i].transform.position);
-                if(distance<m_nearestDistance)
-                {
-                    m_nearestBoat=boats[i];
-                    m_nearestDistance=distance;
-                }
-            }
-            m_target=m_nearestBoat.transform;
-            m_timer=0;
-        }
         public void Kill()
         {
-            Destroy(transform.parent.gameObject);
+            m_isAlive = false;
+
+            ReleaseFromPool();
         }
 
-        void OnTriggerEnter(Collider other)
+        public override void OnGet() { }
+
+        public override void OnRelease() { }
+
+        private void Awake()
         {
-            if(other.gameObject.tag=="Boat"&&currentState==FishState.TowardsBait)
+            m_rb = GetComponent<Rigidbody>();
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag(m_settings.forceFieldTag))
             {
-                FishBait fishBait=other.gameObject.GetComponent<FishBait>();
-                if(fishBait && fishBait.isBaitEnabled())
-                {
-                    Kill();
-                }
+                m_activeForce = other.GetComponent<ForceField>();
             }
+        }
+
+        private void FixedUpdate()
+        {
+            if (!m_isAlive || !GameManager.Instance.IsStarted)
+            {
+                return;
+            }
+
+            if (m_activeBait != null)
+            {
+                HandleMovingToBait();
+            }
+            else if (m_activeForce != null)
+            {
+                HandleActiveForce();
+            }
+            else if (FishManager.Instance.Leader != null)
+            {
+                HandleFollowingLeader();
+            }
+            else
+            {
+                m_isMovingFast = false;
+                //m_moveDir = Vector3.zero;
+            }
+
+            MovingRoutine();
+        }
+
+        private void HandleFollowingLeader()
+        {
+            var manager = FishManager.Instance;
+            var lead = manager.Leader;
+            if (lead == null || lead == this)
+            {
+                return;
+            }
+
+            if (m_leaderOffset == null)
+            {
+                m_leaderOffset = RandomUtils.GetRandomVectorInRadius(
+                    manager.MinGroupRadius, manager.MaxGroupRadius
+                );
+                return;
+            }
+
+            if (MoveToPoint(lead.transform.position + (Vector3)m_leaderOffset))
+            {
+                m_isMovingFast = false;
+                m_moveDir = lead.m_moveDir;
+            }
+        }
+
+        private void HandleActiveForce()
+        {
+            if (m_activeForce == null)
+            {
+                return;
+            }
+
+            var dist = Vector3.Distance(transform.position, m_activeForce.transform.position);
+            if (dist > m_activeForce.Radius)
+            {
+                m_activeForce = null;
+                return;
+            }
+
+            m_isMovingFast = false;
+            m_moveDir = m_activeForce.Direction;
+        }
+
+        private void HandleMovingToBait()
+        {
+            if (m_activeBait == null)
+            {
+                return;
+            }
+
+            MoveToPoint(m_activeBait.transform.position);
+        }
+
+        private void MovingRoutine()
+        {
+            if (Mathf.Approximately(m_moveDir.sqrMagnitude, 0f))
+            {
+                return;
+            }
+
+            var vel = m_moveDir.normalized;
+            if (m_isMovingFast)
+            {
+                vel *= m_settings.fastMoveSpeed;
+            }
+            else
+            {
+                vel *= m_settings.moveSpeed;
+            }
+
+            m_rb.velocity = vel;
+            m_rb.rotation = Quaternion.LookRotation(vel);
+        }
+
+        /// <summary>
+        /// Move fish towards the point
+        /// </summary>
+        /// <returns>`true` if fish reaches the point, `false` if don't</returns>
+        private bool MoveToPoint(Vector3 point)
+        {
+            var dist = Vector3.Distance(transform.position, point);
+            if (dist > m_settings.minDistanceToInterestedPoint)
+            {
+                m_isMovingFast = true;
+                m_moveDir = point - transform.position;
+                return false;
+            }
+
+            return true;
         }
     }
 }
