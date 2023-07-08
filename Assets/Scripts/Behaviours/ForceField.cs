@@ -21,6 +21,13 @@ namespace GMTK_2023.Behaviours
         private SphereCollider m_collider;
         private Vector3 m_dir = Vector3.zero;
 
+        private float forceMultiplier=1.0f;
+
+        public void setForceMultiplier(float multiplier)
+        {
+            forceMultiplier=multiplier;
+        }
+
         private void Awake()
         {
             m_collider = GetComponent<SphereCollider>();
@@ -55,7 +62,7 @@ namespace GMTK_2023.Behaviours
                 ) / m_collider.radius
             );
             float forceVal = m_settings.centerForceValue
-                + (m_settings.borderForceValue - m_settings.centerForceValue) * forceFactor;
+                + (m_settings.borderForceValue - m_settings.centerForceValue) * forceFactor * forceMultiplier;
 
             rb.AddForce(forceVal * m_dir);
         }
