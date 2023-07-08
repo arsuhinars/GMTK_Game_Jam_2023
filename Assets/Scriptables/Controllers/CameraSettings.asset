@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 1
   moveDirection: {x: 1, y: 0.6}
+  boundsExtraSpace: 2.5
