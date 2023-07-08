@@ -54,7 +54,7 @@ namespace GMTK_2023.Controllers
                 return;
             }
 
-            var step = m_settings.moveSpeed * Time.deltaTime * m_normalizedMoveDir;
+            var step = m_settings.moveSpeed * Time.deltaTime * m_normalizedMoveDir * 5;
             transform.localPosition += new Vector3(step.x, 0f, step.y);
 
             m_viewBounds.center = m_boundsOffset + transform.localPosition;

@@ -1,4 +1,7 @@
+using Assets.Scripts.Managers;
+using GMTK_2023.Controllers;
 using UnityEngine;
+using UnityEngine.Pool;
 
 namespace GMTK_2023.Behaviours
 {
@@ -8,12 +11,15 @@ namespace GMTK_2023.Behaviours
         [SerializeField] private float size = 1f;
         [SerializeField] private int cellsCount = 10;
 
+        private CameraController cam;
+        private WaterManager waterManager;
+
         private MeshFilter m_meshFilter;
 
         public void GenerateMesh()
         {
             int verticesCount = (cellsCount + 1) * (cellsCount + 1);
-            
+
             var vertices = new Vector3[verticesCount];
             var triangles = new int[cellsCount * cellsCount * 2 * 3];
 
@@ -28,7 +34,7 @@ namespace GMTK_2023.Behaviours
                     vertices[idx] = new Vector3(x * posFactor, 0f, y * posFactor);
                 }
             }
-            
+
             for (int x = 0; x < cellsCount; ++x)
             {
                 for (int y = 0; y < cellsCount; ++y)
@@ -63,7 +69,35 @@ namespace GMTK_2023.Behaviours
 
         private void Start()
         {
+            cam = ControllersFacade.Instance.CameraController;
+            waterManager = ControllersFacade.Instance.WaterManager;
             GenerateMesh();
+        }
+
+        private void Update()
+        {
+            var minBound = cam.ViewBounds.min;
+            if (IsActiveInPool)
+                if (transform.position.x + size < minBound.x
+                    || transform.position.z + size < minBound.z)
+                {
+                    ReleaseFromPool();
+                }
+        }
+
+        public IObjectPool<WaterMeshGenerator> CurrentPool { get; set; }
+        public bool IsActiveInPool { get; set; } = false;
+
+        public void ReleaseFromPool()
+        {
+            CurrentPool.Release(this);
+            waterManager._waterGrid.Remove((Mathf.Round(transform.position.x / size) * size / 2f, Mathf.Round(transform.position.z / size) * size / 2f));
+            Debug.Log((Mathf.Round(transform.position.x / size) * size / 2f, Mathf.Round(transform.position.z / size) * size / 2f));
+        }
+
+        internal void SetPosition(Vector3 waterPosition)
+        {
+            transform.position = waterPosition;
         }
     }
 }
