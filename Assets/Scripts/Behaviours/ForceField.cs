@@ -10,7 +10,11 @@ namespace GMTK_2023.Behaviours
         public Vector3 Direction
         {
             get => m_dir;
-            set => m_dir = value.normalized;
+            set
+            {
+                m_dir = value.normalized;
+                transform.rotation = Quaternion.LookRotation(m_dir);
+            }
         }
 
         [SerializeField] private ForceFieldSettings m_settings;
