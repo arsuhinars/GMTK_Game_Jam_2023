@@ -11,10 +11,11 @@ namespace GMTK_2023.Managers
     {
         public static LevelManager Instance { get; private set; } = null;
 
+        public float WaterLevelY => m_settings.waterLevelY;
+
         [SerializeField] private LevelManagerSettings m_settings;
         [SerializeField] private Transform m_levelRoot;
 
-        private CameraController m_camera;
         private ObjectPool<PoolItem>[] m_pools;
 
         private void Awake()
@@ -28,8 +29,6 @@ namespace GMTK_2023.Managers
                 Destroy(this);
                 return;
             }
-
-            m_camera = FindObjectOfType<CameraController>();
         }
 
         private void Start()
@@ -54,15 +53,12 @@ namespace GMTK_2023.Managers
                 return;
             }
 
-            int objectsCount = 0;
             for (int i = 0; i < m_pools.Length; i++)
             {
-                objectsCount += m_pools[i].CountActive;
-            }
-
-            if (objectsCount < m_settings.maxActiveObjects)
-            {
-                SpawnObject();
+                if (m_pools[i].CountActive < m_settings.prefabs[i].maxCount)
+                {
+                    SpawnObject(i);
+                }
             }
         }
 
@@ -81,27 +77,38 @@ namespace GMTK_2023.Managers
             m_pools = new ObjectPool<PoolItem>[prefabs.Length];
             for (int i = 0; i < prefabs.Length; ++i)
             {
-                m_pools[i] = ObjectPoolFactory.CreatePrefabsPool(prefabs[i], m_levelRoot);
+                m_pools[i] = ObjectPoolFactory.CreatePrefabsPool(prefabs[i].prefab, m_levelRoot);
             }
         }
 
-        private void SpawnObject()
+        private void SpawnObject(int poolIdx)
         {
-            // TODO: spawn position depends on camera look direction
-
-            int poolIdx = Random.Range(0, m_pools.Length);
-
             var obj = m_pools[poolIdx].Get();
 
-            var camPos = m_levelRoot.InverseTransformPoint(m_camera.transform.position);
-            camPos.y = 0f;
+            var camera = ControllersFacade.Instance.CameraController;
+            var bounds = camera.ViewBounds;
 
-            float angle = Random.Range(0f, 2f * Mathf.PI);
-            var p = m_settings.spawnRadius * new Vector3(
-                Mathf.Cos(angle), 0f, Mathf.Sin(angle)
-            );
+            Vector3 pos;
+            if (Random.Range(0, 2) != 0)
+            {
+                // Spawn on the front
+                pos = new Vector3(
+                    Random.Range(bounds.min.x, bounds.max.x),
+                    m_settings.waterLevelY,
+                    bounds.max.z
+                );
+            }
+            else
+            {
+                // Spawn on the left/right side
+                pos = new Vector3(
+                    camera.MoveDirection.x > 0f ? bounds.max.x : bounds.min.x,
+                    m_settings.waterLevelY,
+                    Random.Range(bounds.min.z, bounds.max.z)
+                );
+            }
 
-            obj.transform.localPosition = camPos + p;
+            obj.transform.position = pos;
         }
     }
 }
