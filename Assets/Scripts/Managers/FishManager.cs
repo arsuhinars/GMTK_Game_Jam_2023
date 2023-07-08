@@ -19,7 +19,7 @@ namespace GMTK_2023.Managers
         [SerializeField] private FishManagerSettings m_settings;
         [SerializeField] private Transform m_spawnRoot;
         private FishEntity m_leader;
-        private LinkedList<FishEntity> m_slaves;
+        private LinkedList<FishEntity> m_slaves = new();
         private ObjectPool<PoolItem> m_pool;
 
         private void Awake()
@@ -60,6 +60,21 @@ namespace GMTK_2023.Managers
             if (m_pool.CountActive == 0)
             {
                 GameManager.Instance.EndGame(GameEndReason.Died);
+                return;
+            }
+
+            var it = m_slaves.First;
+            while (it != null)
+            {
+                if (!it.Value.IsAlive)
+                {
+                    var t = it;
+                    it = it.Next;
+                    m_slaves.Remove(t);
+                    continue;
+                }
+                
+                it = it.Next;
             }
 
             if (!m_leader.IsAlive)
@@ -71,12 +86,24 @@ namespace GMTK_2023.Managers
 
         private void OnGameStart()
         {
+            if (m_leader != null && m_leader.IsActiveInPool)
+            {
+                m_pool.Release(m_leader);
+            }
+
+            foreach (var fish in m_slaves)
+            {
+                m_pool.Release(fish);
+            }
+
             m_pool.Clear();
             m_slaves = new();
 
-            var cam = ControllersFacade.Instance.CameraController;
-            var pos = cam.ViewBounds.center;
-            pos.y = LevelManager.Instance.WaterLevelY - m_settings.fishSwimDepth;
+            var pos = new Vector3(
+                0f,
+                LevelManager.Instance.WaterLevelY - m_settings.fishSwimDepth,
+                0f
+            );
 
             m_leader = m_pool.Get() as FishEntity;
             m_leader.transform.position = pos;

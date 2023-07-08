@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ea2986ab1d06fd4883f201cb164231d, type: 3}
   m_Name: CameraSettings
   m_EditorClassIdentifier: 
-  moveSpeed: 1
-  moveDirection: {x: 1, y: 0.6}
+  lookDirection: {x: 0, y: -1, z: 0.4}
+  lookDistance: 20
+  moveSmoothTime: 0.3
   boundsExtraSpace: 2.5

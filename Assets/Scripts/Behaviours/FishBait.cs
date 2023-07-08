@@ -31,4 +31,3 @@ namespace GMTK_2023.Behaviours
         }
     }
 }
-

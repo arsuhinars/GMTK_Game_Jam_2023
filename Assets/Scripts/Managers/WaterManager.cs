@@ -105,8 +105,15 @@ namespace GMTK_2023.Managers
 
         private void OnGameStart()
         {
+            for (int x = m_tileBounds.min.x; x < m_tileBounds.max.x; ++x)
+            {
+                for (int y = m_tileBounds.min.y; y < m_tileBounds.max.y; ++y)
+                {
+                    RemoveMesh(new Vector2Int(x, y));
+                }
+            }
+
             m_grid = new();
-            m_pool.Clear();
         }
     }
 }

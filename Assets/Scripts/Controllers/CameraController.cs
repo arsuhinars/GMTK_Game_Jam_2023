@@ -9,12 +9,12 @@ namespace GMTK_2023.Controllers
     {
         public Bounds ViewBounds => m_viewBounds;
         public Camera Camera => m_camera;
-        public Vector3 MoveDirection => m_settings.moveDirection;
+        public Vector3 MoveDirection => m_velocity;
 
         [SerializeField] private CameraSettings m_settings;
         private Camera m_camera;
-        private Vector2 m_normalizedMoveDir;
-        private Vector3 m_initialPos;
+        private Vector3 m_normalizedLookDir;
+        private Vector3 m_velocity;
         private Bounds m_viewBounds;
         private Vector3 m_boundsOffset;
 
@@ -32,8 +32,10 @@ namespace GMTK_2023.Controllers
 
         private void Start()
         {
-            m_initialPos = transform.localPosition;
-            m_normalizedMoveDir = m_settings.moveDirection.normalized;
+            m_normalizedLookDir = m_settings.lookDirection.normalized;
+
+            transform.position = CalculateTargetPosition();
+            transform.rotation = Quaternion.LookRotation(m_settings.lookDirection);
             CalculateBounds();
 
             GameManager.Instance.OnStart += OnGameStart;
@@ -54,10 +56,26 @@ namespace GMTK_2023.Controllers
                 return;
             }
 
-            var step = m_settings.moveSpeed * Time.deltaTime * m_normalizedMoveDir * 5;
-            transform.localPosition += new Vector3(step.x, 0f, step.y);
+            transform.position = Vector3.SmoothDamp(
+                transform.position,
+                CalculateTargetPosition(),
+                ref m_velocity,
+                m_settings.moveSmoothTime
+            );
 
-            m_viewBounds.center = m_boundsOffset + transform.localPosition;
+            m_viewBounds.center = m_boundsOffset + transform.position;
+        }
+
+        private Vector3 CalculateTargetPosition()
+        {
+            var fishLead = FishManager.Instance.Leader;
+            var target = Vector3.zero;
+            if (fishLead != null && fishLead.IsAlive)
+            {
+                target = fishLead.transform.position;
+            }
+
+            return target - m_normalizedLookDir * m_settings.lookDistance;
         }
 
         private void CalculateBounds()
@@ -77,12 +95,12 @@ namespace GMTK_2023.Controllers
             var extra = Vector3.one * m_settings.boundsExtraSpace;
             m_viewBounds.SetMinMax(min - extra, max + extra);
 
-            m_boundsOffset = m_viewBounds.center - m_initialPos;
+            m_boundsOffset = m_viewBounds.center - transform.position;
         }
 
         private void OnGameStart()
         {
-            transform.localPosition = m_initialPos;
+            transform.position = CalculateTargetPosition();
         }
 
         private void OnDrawGizmosSelected()

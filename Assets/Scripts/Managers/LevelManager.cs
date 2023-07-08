@@ -2,6 +2,7 @@
 using GMTK_2023.Controllers;
 using GMTK_2023.Scriptables;
 using GMTK_2023.Utils;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -64,11 +65,12 @@ namespace GMTK_2023.Managers
 
         private void OnGameStart()
         {
-            for (int i = 0; i < m_pools.Length; ++i)
-            {
-                m_pools[i].Clear();
-            }
+            StartCoroutine(OnGameStartCorotuine());
+        }
 
+        private IEnumerator OnGameStartCorotuine()
+        {
+            yield return null;
             for (int i = 0; i < m_pools.Length; i++)
             {
                 while (m_pools[i].CountActive < m_settings.prefabs[i].maxCount)
@@ -101,16 +103,16 @@ namespace GMTK_2023.Managers
             {
                 // Spawn within view range
                 pos = new Vector3(
-                    Random.Range(bounds.min.x, bounds.max.x),
+                    Random.Range(bounds.min.x + 0.01f, bounds.max.x - 0.01f),
                     m_settings.waterLevelY,
-                    Random.Range(bounds.min.z, bounds.max.z)
+                    Random.Range(bounds.min.z + 0.01f, bounds.max.z - 0.01f)
                 );
             }
             else if (Random.Range(0, 2) != 0)
             {
                 // Spawn on the front
                 pos = new Vector3(
-                    Random.Range(bounds.min.x, bounds.max.x),
+                    Random.Range(bounds.min.x + 0.01f, bounds.max.x - 0.01f),
                     m_settings.waterLevelY,
                     bounds.max.z
                 );
@@ -121,7 +123,7 @@ namespace GMTK_2023.Managers
                 pos = new Vector3(
                     camera.MoveDirection.x > 0f ? bounds.max.x : bounds.min.x,
                     m_settings.waterLevelY,
-                    Random.Range(bounds.min.z, bounds.max.z)
+                    Random.Range(bounds.min.z + 0.01f, bounds.max.z - 0.01f)
                 );
             }
 

@@ -1,4 +1,5 @@
 ﻿using GMTK_2023.Controllers;
+using GMTK_2023.Managers;
 using UnityEngine;
 
 namespace GMTK_2023.Behaviours
@@ -52,6 +53,16 @@ namespace GMTK_2023.Behaviours
         protected virtual void Start()
         {
             Spawn();
+
+            GameManager.Instance.OnStart += OnGameStart;
+        }
+
+        private void OnDestroy()
+        {
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.OnStart -= OnGameStart;
+            }
         }
 
         protected virtual void Update()
@@ -66,6 +77,11 @@ namespace GMTK_2023.Behaviours
             {
                 ReleaseFromPool();
             }
+        }
+
+        private void OnGameStart()
+        {
+            ReleaseFromPool();
         }
     }
 }
