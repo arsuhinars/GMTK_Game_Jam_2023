@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace GMTK_2023.UI
+namespace GMTK_2023.UI.Elements
 {
     public class PlayerClickableArea : MonoBehaviour, IPointerClickHandler
     {
