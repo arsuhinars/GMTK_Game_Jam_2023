@@ -54,8 +54,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5855e374a8e523242b1140305d0b6a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: 10
-  cellsCount: 10
+  m_size: 10
+  m_cellsCount: 10
 --- !u!23 &798249102068801444
 MeshRenderer:
   m_ObjectHideFlags: 0

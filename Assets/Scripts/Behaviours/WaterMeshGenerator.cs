@@ -1,45 +1,43 @@
-using Assets.Scripts.Managers;
-using GMTK_2023.Controllers;
+using GMTK_2023.Managers;
 using UnityEngine;
-using UnityEngine.Pool;
 
 namespace GMTK_2023.Behaviours
 {
     [RequireComponent(typeof(MeshFilter))]
-    public class WaterMeshGenerator : MonoBehaviour
+    public class WaterMeshGenerator : PoolItem
     {
-        [SerializeField] private float size = 1f;
-        [SerializeField] private int cellsCount = 10;
+        public Vector2Int TilePos { get => m_tilePos; set => m_tilePos = value; }
+        public float Size => m_size;
 
-        private CameraController cam;
-        private WaterManager waterManager;
-
+        [SerializeField] private float m_size = 1f;
+        [SerializeField] private int m_cellsCount = 10;
+        private Vector2Int m_tilePos;
         private MeshFilter m_meshFilter;
 
         public void GenerateMesh()
         {
-            int verticesCount = (cellsCount + 1) * (cellsCount + 1);
+            int verticesCount = (m_cellsCount + 1) * (m_cellsCount + 1);
 
             var vertices = new Vector3[verticesCount];
-            var triangles = new int[cellsCount * cellsCount * 2 * 3];
+            var triangles = new int[m_cellsCount * m_cellsCount * 2 * 3];
 
-            int GetVertexIndex(int x, int y) => x + y * (cellsCount + 1);
+            int GetVertexIndex(int x, int y) => x + y * (m_cellsCount + 1);
 
-            float posFactor = size / cellsCount;
-            for (int x = 0; x < cellsCount + 1; ++x)
+            float posFactor = m_size / m_cellsCount;
+            for (int x = 0; x < m_cellsCount + 1; ++x)
             {
-                for (int y = 0; y < cellsCount + 1; ++y)
+                for (int y = 0; y < m_cellsCount + 1; ++y)
                 {
                     int idx = GetVertexIndex(x, y);
                     vertices[idx] = new Vector3(x * posFactor, 0f, y * posFactor);
                 }
             }
 
-            for (int x = 0; x < cellsCount; ++x)
+            for (int x = 0; x < m_cellsCount; ++x)
             {
-                for (int y = 0; y < cellsCount; ++y)
+                for (int y = 0; y < m_cellsCount; ++y)
                 {
-                    int idx = (x + y * cellsCount) * 6;
+                    int idx = (x + y * m_cellsCount) * 6;
                     // left top triangle
                     triangles[idx] = GetVertexIndex(x, y + 1);
                     triangles[idx + 1] = GetVertexIndex(x + 1, y);
@@ -69,35 +67,26 @@ namespace GMTK_2023.Behaviours
 
         private void Start()
         {
-            cam = ControllersFacade.Instance.CameraController;
-            waterManager = ControllersFacade.Instance.WaterManager;
             GenerateMesh();
         }
 
         private void Update()
         {
-            var minBound = cam.ViewBounds.min;
-            if (IsActiveInPool)
-                if (transform.position.x + size < minBound.x
-                    || transform.position.z + size < minBound.z)
-                {
-                    ReleaseFromPool();
-                }
+            if (!IsActiveInPool)
+            {
+                return;
+            }
+
+            var manager = WaterManager.Instance;
+
+            if (!manager.TileBounds.Contains(m_tilePos))
+            {
+                manager.RemoveMesh(m_tilePos);
+            }
         }
 
-        public IObjectPool<WaterMeshGenerator> CurrentPool { get; set; }
-        public bool IsActiveInPool { get; set; } = false;
+        public override void OnGet() { }
 
-        public void ReleaseFromPool()
-        {
-            CurrentPool.Release(this);
-            waterManager._waterGrid.Remove((Mathf.Round(transform.position.x / size) * size / 2f, Mathf.Round(transform.position.z / size) * size / 2f));
-            Debug.Log((Mathf.Round(transform.position.x / size) * size / 2f, Mathf.Round(transform.position.z / size) * size / 2f));
-        }
-
-        internal void SetPosition(Vector3 waterPosition)
-        {
-            transform.position = waterPosition;
-        }
+        public override void OnRelease() { }
     }
 }

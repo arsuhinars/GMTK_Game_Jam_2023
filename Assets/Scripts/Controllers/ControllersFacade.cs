@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Managers;
+﻿//using Assets.Scripts.Managers;
 using UnityEngine;
 
 namespace GMTK_2023.Controllers
@@ -9,13 +9,13 @@ namespace GMTK_2023.Controllers
 
         public CameraController CameraController => m_camera;
         public PlayerController PlayerController => m_player;
-        public WaterManager WaterManager => m_waterManager;
+        //public WaterManager WaterManager => m_waterManager;
         public UIController UIController => m_ui;
 
         private CameraController m_camera;
         private PlayerController m_player;
         private UIController m_ui;
-        private WaterManager m_waterManager;
+        //private WaterManager m_waterManager;
 
 
         private void Awake()
@@ -33,7 +33,7 @@ namespace GMTK_2023.Controllers
             m_camera = FindObjectOfType<CameraController>();
             m_player = FindObjectOfType<PlayerController>();
             m_ui = FindObjectOfType<UIController>();
-            m_waterManager = FindObjectOfType<WaterManager>();
+            //m_waterManager = FindObjectOfType<WaterManager>();
         }
     }
 }

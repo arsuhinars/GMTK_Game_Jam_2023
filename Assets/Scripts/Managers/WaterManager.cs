@@ -1,53 +1,112 @@
-﻿using Assets.Scripts.Utils;
-using GMTK_2023.Behaviours;
+﻿using GMTK_2023.Behaviours;
 using GMTK_2023.Controllers;
+using GMTK_2023.Utils;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace Assets.Scripts.Managers
+namespace GMTK_2023.Managers
 {
     public class WaterManager : MonoBehaviour
     {
-        public GameObject WaterMesh;
-        public WaterMeshGenerator WaterMeshPrefab;
+        public static WaterManager Instance { get; private set; } = null;
 
-        public GameObject GameCamera;
-        private CameraController _cameraController;
-        public Dictionary<(float x, float y), bool> _waterGrid;
-        private ObjectPool<WaterMeshGenerator> m_pools;
-        [SerializeField] private Transform m_levelRoot;
+        public RectInt TileBounds => m_tileBounds;
 
+        [SerializeField] private WaterMeshGenerator m_prefab;
+        [SerializeField] private Transform m_waterRoot;
 
-        private float _waterSize = 10f;
-        void Start()
+        private CameraController m_camera;
+        private Dictionary<Vector2Int, WaterMeshGenerator> m_grid;
+        private ObjectPool<PoolItem> m_pool;
+        private RectInt m_tileBounds;
+
+        public void RemoveMesh(Vector2Int tilePos)
         {
-            _waterGrid = new Dictionary<(float x, float y), bool>();
-            _cameraController = GameCamera.GetComponent<CameraController>();
-            m_pools = WaterPoolFactory.CreatePrefabsPool(WaterMeshPrefab, m_levelRoot);
+            if (!m_grid.TryGetValue(tilePos, out var mesh))
+            {
+                return;
+            }
+
+            m_pool.Release(mesh);
+            m_grid.Remove(tilePos);
+        }
+
+        private void Awake()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(this);
+                return;
+            }
+        }
+
+        private void Start()
+        {
+            GameManager.Instance.OnStart += OnGameStart;
+
+            m_camera = ControllersFacade.Instance.CameraController;
+            m_pool = ObjectPoolFactory.CreatePrefabsPool(m_prefab, m_waterRoot);
+        }
+
+        private void OnDestroy()
+        {
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.OnStart -= OnGameStart;
+            }
         }
 
         private void Update()
         {
-            var minBound = _cameraController.ViewBounds.min;
-            var maxBound = _cameraController.ViewBounds.max;
-            var roundedMinBoundX = Mathf.Round(minBound.x / _waterSize);
-            var roundedMaxBoundX = Mathf.Round(maxBound.x / _waterSize * 1.2f);
-                                                                       
-            var roundedMinBoundZ = Mathf.Round(minBound.z / _waterSize);
-            var roundedMaxBoundZ = Mathf.Round(maxBound.z / _waterSize * 1.2f);
-
-            for (float i = roundedMinBoundX; i < roundedMaxBoundX; i++)
+            if (!GameManager.Instance.IsStarted)
             {
-                for (float j = roundedMinBoundZ; j < roundedMaxBoundZ; j++)
+                return;
+            }
+
+            float waterSize = m_prefab.Size;
+
+            var minBound = m_camera.ViewBounds.min;
+            var maxBound = m_camera.ViewBounds.max;
+
+            m_tileBounds.SetMinMax(
+                new Vector2Int(
+                    Mathf.FloorToInt(minBound.x / waterSize),
+                    Mathf.FloorToInt(minBound.z / waterSize)
+                ),
+                new Vector2Int(
+                    Mathf.CeilToInt(maxBound.x / waterSize) + 1,
+                    Mathf.CeilToInt(maxBound.z / waterSize) + 1
+                )
+            );
+
+            for (int x = m_tileBounds.min.x; x < m_tileBounds.max.x; ++x)
+            {
+                for (int y = m_tileBounds.min.y; y < m_tileBounds.max.y; ++y)
                 {
-                    if (_waterGrid.TryAdd((i, j), true))
+                    var tilePos = new Vector2Int(x, y);
+                    if (m_grid.ContainsKey(tilePos))
                     {
-                        var waterPosition = new Vector3(i * _waterSize / 2, 0, j * _waterSize / 2);
-                        m_pools.Get().SetPosition(waterPosition);
+                        continue;
                     }
+
+                    var mesh = m_pool.Get() as WaterMeshGenerator;
+                    mesh.TilePos = tilePos;
+                    mesh.transform.position = new Vector3(x, 0f, y) * waterSize;
+
+                    m_grid.Add(tilePos, mesh);
                 }
             }
+        }
+
+        private void OnGameStart()
+        {
+            m_grid = new();
+            m_pool.Clear();
         }
     }
 }
