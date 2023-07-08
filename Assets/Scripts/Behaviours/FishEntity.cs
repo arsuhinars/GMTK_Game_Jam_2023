@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace GMTK_2023.Behaviours
 {
@@ -14,25 +13,28 @@ namespace GMTK_2023.Behaviours
     public class FishEntity : MonoBehaviour
     {
         float wanderRadius=10f;
-        float wanderm_timer=5f;
+        float wanderTimer=5f;
 
         float m_nearestDistance=100f;
+
+        float m_speed=4f;
+        float m_rotationSpeed=4f;
+
+        [SerializeField] GameObject[] pointOfInterests;
 
         FishState currentState=FishState.Wandering;
     
         GameObject m_nearestBoat;
 
         private Transform m_target;
-        private NavMeshAgent m_agent;
         private float m_timer;
 
-        //private Rigidbody rb;
+        private Rigidbody rb;
 
         void OnEnable() 
         {
-            m_agent = GetComponent<NavMeshAgent> ();
-            m_timer = wanderm_timer;
-            //rb = GetComponent<Rigidbody>();
+            m_timer = wanderTimer;
+            rb = GetComponent<Rigidbody>();
         }
 
         void Start()
@@ -44,7 +46,7 @@ namespace GMTK_2023.Behaviours
         {
             m_timer += Time.deltaTime;
  
-            if (m_timer >= wanderm_timer) 
+            if (m_timer >= wanderTimer) 
             {
                 int chance=Random.Range(0,10);
                 switch(chance)
@@ -78,18 +80,17 @@ namespace GMTK_2023.Behaviours
                     break;
                 }
             }
-            // Vector3 velocity = rb.velocity;
 
-            // if(velocity!=Vector3.zero)
-            // {
-            //     transform.forward=velocity;
-            // }
+            transform.position = Vector3.MoveTowards(transform.position, m_target.position, m_speed*Time.deltaTime);
+            var desiredRotation=Quaternion.LookRotation(m_target.position);
+            transform.rotation=Quaternion.Slerp(transform.rotation,desiredRotation,Time.deltaTime*m_rotationSpeed);
+            Vector3 velocity = rb.velocity;
         }
 
         public void Wandering()
         {
-            Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
-            m_agent.SetDestination(newPos);
+            int randomPoint=Random.Range(0,pointOfInterests.Length);
+            m_target=pointOfInterests[randomPoint].transform;
             m_timer = 0;
         }
 
@@ -105,23 +106,9 @@ namespace GMTK_2023.Behaviours
                     m_nearestDistance=distance;
                 }
             }
-            m_agent.SetDestination(m_nearestBoat.transform.position);
+            m_target=m_nearestBoat.transform;
             m_timer=0;
         }
-
-        public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask) 
-        {
-            Vector3 randDirection = Random.insideUnitSphere * dist;
-    
-            randDirection += origin;
-    
-            NavMeshHit navHit;
-    
-            NavMesh.SamplePosition (randDirection, out navHit, dist, layermask);
-    
-            return navHit.position;
-        }
-
         public void Kill()
         {
             Destroy(transform.parent.gameObject);
@@ -129,9 +116,13 @@ namespace GMTK_2023.Behaviours
 
         void OnTriggerEnter(Collider other)
         {
-            if(other.gameObject.tag=="Boat")
+            if(other.gameObject.tag=="Boat"&&currentState==FishState.TowardsBait)
             {
-                Kill();
+                FishBait fishBait=other.gameObject.GetComponent<FishBait>();
+                if(fishBait && fishBait.isBaitEnabled())
+                {
+                    Kill();
+                }
             }
         }
     }
