@@ -1,14 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using GMTK_2023.Scriptables;
 
 namespace GMTK_2023.Behaviours
 {
     public class FishBait : MonoBehaviour
     {
-        float m_baitTimeCountdown=5f;
-        bool m_baitEnabled=false;
+        [SerializeField] FishBaitSettings fishBaitSettings;
         float m_baitTimer=0f;
         // Start is called before the first frame update
         void Start()
@@ -21,16 +20,16 @@ namespace GMTK_2023.Behaviours
         {
             m_baitTimer+=Time.deltaTime;
 
-            if(m_baitTimer>m_baitTimeCountdown)
+            if(m_baitTimer>fishBaitSettings.m_baitTimeCountdown)
             {
-                m_baitEnabled=!m_baitEnabled;
+                fishBaitSettings.m_baitEnabled=!fishBaitSettings.m_baitEnabled;
                 m_baitTimer=0;
             }
         }
 
         public bool isBaitEnabled()
         {
-            return m_baitEnabled;
+            return fishBaitSettings.m_baitEnabled;
         }
     }
 }

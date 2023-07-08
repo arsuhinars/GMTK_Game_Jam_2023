@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GMTK_2023.Scriptables;
 
 namespace GMTK_2023.Behaviours
 {
@@ -12,13 +13,9 @@ namespace GMTK_2023.Behaviours
 
     public class FishEntity : MonoBehaviour
     {
-        float wanderRadius=10f;
-        float wanderTimer=5f;
+        [SerializeField] FishEntitySettings fishEntitySettings;
 
         float m_nearestDistance=100f;
-
-        float m_speed=4f;
-        float m_rotationSpeed=4f;
 
         [SerializeField] GameObject[] pointOfInterests;
 
@@ -33,7 +30,7 @@ namespace GMTK_2023.Behaviours
 
         void OnEnable() 
         {
-            m_timer = wanderTimer;
+            m_timer = fishEntitySettings.wanderTimer;
             rb = GetComponent<Rigidbody>();
         }
 
@@ -46,7 +43,7 @@ namespace GMTK_2023.Behaviours
         {
             m_timer += Time.deltaTime;
  
-            if (m_timer >= wanderTimer) 
+            if (m_timer >= fishEntitySettings.wanderTimer) 
             {
                 int chance=Random.Range(0,10);
                 switch(chance)
@@ -81,9 +78,9 @@ namespace GMTK_2023.Behaviours
                 }
             }
 
-            transform.position = Vector3.MoveTowards(transform.position, m_target.position, m_speed*Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, m_target.position, fishEntitySettings.m_speed*Time.deltaTime);
             var desiredRotation=Quaternion.LookRotation(m_target.position);
-            transform.rotation=Quaternion.Slerp(transform.rotation,desiredRotation,Time.deltaTime*m_rotationSpeed);
+            transform.rotation=Quaternion.Slerp(transform.rotation,desiredRotation,Time.deltaTime*fishEntitySettings.m_rotationSpeed);
             Vector3 velocity = rb.velocity;
         }
 

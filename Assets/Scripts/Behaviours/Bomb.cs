@@ -1,23 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using GMTK_2023.Scriptables;
 namespace GMTK_2023.Behaviours
 {
+
     public class Bomb : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-            
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-            
-        }
-
+        [SerializeField] BombSettings bombSettings;
         void OnTriggerEnter(Collider other)
         {
             //Destroy(transform.gameObject);
@@ -26,7 +16,7 @@ namespace GMTK_2023.Behaviours
 
             if(other.gameObject.tag=="Water")
             {
-                Collider[] hitColliders = Physics.OverlapSphere(transform.position, 8f);
+                Collider[] hitColliders = Physics.OverlapSphere(transform.position, bombSettings.radius);
                 foreach (var hitCollider in hitColliders)
                 {
                     if(hitCollider.gameObject.tag=="Fish")
