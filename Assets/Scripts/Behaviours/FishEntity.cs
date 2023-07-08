@@ -100,6 +100,7 @@ namespace GMTK_2023.Behaviours
             var lead = manager.Leader;
             if (lead == null || lead == this)
             {
+                m_isMovingFast = false;
                 return;
             }
 

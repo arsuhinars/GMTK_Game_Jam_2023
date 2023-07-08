@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 7108942657690509832, guid: cf67c23160df54e4f8cdcc15b9c5540a, type: 3}
   fishSwimDepth: 0.2
-  initialFishCount: 10
-  maxFishGroupRadius: 5
+  initialFishCount: 16
+  maxFishGroupRadius: 6
   minFishGroupRadius: 1
