@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fishTag: Fish
   killRadius: 1
+  throwSpeed: 15

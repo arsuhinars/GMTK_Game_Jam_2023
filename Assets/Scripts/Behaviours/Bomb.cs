@@ -1,30 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using GMTK_2023.Scriptables;
+using GMTK_2023.Managers;
+
 namespace GMTK_2023.Behaviours
 {
-
-    public class Bomb : MonoBehaviour
+    public class Bomb : LevelItem
     {
-        [SerializeField] BombSettings bombSettings;
-        void OnTriggerEnter(Collider other)
-        {
-            //Destroy(transform.gameObject);
-            if(other.gameObject.tag=="Boat")
-            return;
+        [SerializeField] private BombSettings m_settings;
 
-            if(other.gameObject.tag=="Water")
+        public void Throw(Vector3 origin, Vector3 direction)
+        {
+            Rigidbody.position = origin;
+            Rigidbody.velocity = direction.normalized * m_settings.throwSpeed;
+        }
+
+        private void FixedUpdate()
+        {
+            if (Rigidbody.position.y <= LevelManager.Instance.WaterLevelY)
             {
-                Collider[] hitColliders = Physics.OverlapSphere(transform.position, bombSettings.radius);
-                foreach (var hitCollider in hitColliders)
+                HandleExplosion();
+            }
+        }
+
+        private void HandleExplosion()
+        {
+            var colliders = Physics.OverlapSphere(Rigidbody.position, m_settings.explosionRadius);
+            for (int i = 0; i < colliders.Length; i++)
+            {
+                if (colliders[i].CompareTag(m_settings.fishTag))
                 {
-                    if(hitCollider.gameObject.tag=="Fish")
-                    {
-                        hitCollider.GetComponent<FishEntity>().Kill();
-                    }
+                    colliders[i].GetComponent<ISpawnable>().Kill();
                 }
             }
+
+            Kill();
         }
     }
 }

@@ -33,7 +33,7 @@ Transform:
   m_Children:
   - {fileID: 1662478406466050496}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &305998470643860608
 Rigidbody:
@@ -60,7 +60,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 84
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!135 &5051003550768055523
 SphereCollider:
@@ -96,6 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_settings: {fileID: 11400000, guid: 39de3be74486caf48acd0af28ff5a697, type: 2}
+  m_triggerSphere: {fileID: 5051003550768055523}
 --- !u!1 &5074148283673099890
 GameObject:
   m_ObjectHideFlags: 0

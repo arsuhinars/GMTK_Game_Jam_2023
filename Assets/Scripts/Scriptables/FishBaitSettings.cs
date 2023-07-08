@@ -7,5 +7,6 @@ namespace GMTK_2023.Scriptables
     {
         public string fishTag;
         public float killRadius;
+        public float throwSpeed;
     }
 }

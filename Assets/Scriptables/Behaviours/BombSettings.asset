@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc75966949f180643bea737e6f85e322, type: 3}
   m_Name: BombSettings
   m_EditorClassIdentifier: 
-  radius: 5
+  fishTag: Fish
+  explosionRadius: 3
+  throwSpeed: 7.5

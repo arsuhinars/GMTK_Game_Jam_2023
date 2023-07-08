@@ -7,6 +7,7 @@ namespace GMTK_2023.Behaviours
     [RequireComponent(typeof(Rigidbody))]
     public class LevelItem : PoolItem, ISpawnable
     {
+        public Rigidbody Rigidbody => m_rb;
         public bool IsAlive => m_isAlive;
 
         private bool m_isAlive = false;

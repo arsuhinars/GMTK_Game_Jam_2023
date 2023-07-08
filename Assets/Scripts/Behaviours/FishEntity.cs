@@ -140,7 +140,7 @@ namespace GMTK_2023.Behaviours
             }
 
             var dist = Vector3.Distance(transform.position, m_activeBait.transform.position);
-            if (!m_activeBait.IsActiveInPool || dist > m_activeBait.Radius * 1.1f)
+            if (!m_activeBait.IsAlive || dist > m_activeBait.Radius * 1.2f)
             {
                 m_activeBait = null;
                 return;

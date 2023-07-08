@@ -10,7 +10,7 @@ namespace GMTK_2023.Behaviours
 
         public void ReleaseFromPool()
         {
-            CurrentPool.Release(this);
+            CurrentPool?.Release(this);
         }
 
         public abstract void OnGet();

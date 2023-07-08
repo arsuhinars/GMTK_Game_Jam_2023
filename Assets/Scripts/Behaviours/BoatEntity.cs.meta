@@ -1,10 +1,9 @@
 fileFormatVersion: 2
-guid: f7ea36be73fb127448900143ebf6c284
+guid: 3b610173b2a28a1429016779b4aca9fa
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - fishBombSettings: {fileID: 11400000, guid: 7c0d22ff124e3a54aaf6a454fd2b617a, type: 2}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

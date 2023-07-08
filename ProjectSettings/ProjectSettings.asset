@@ -161,7 +161,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
     Android: com.DefaultCompany.GMTK_Game_Jam_2023
-    Standalone: com.DefaultCompany.GMTK-Game-Jam-2023
+    Standalone: com.Young-Folks-Studios.Untitled-Fish-Game
   buildNumber:
     Bratwurst: 0
     Standalone: 0
