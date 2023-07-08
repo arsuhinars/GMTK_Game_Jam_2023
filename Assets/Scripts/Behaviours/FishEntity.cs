@@ -118,7 +118,11 @@ namespace GMTK_2023.Behaviours
         {
             if(other.gameObject.tag=="Boat"&&currentState==FishState.TowardsBait)
             {
-                Kill();
+                FishBait fishBait=other.gameObject.GetComponent<FishBait>();
+                if(fishBait && fishBait.isBaitEnabled())
+                {
+                    Kill();
+                }
             }
         }
     }
