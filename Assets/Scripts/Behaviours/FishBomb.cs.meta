@@ -3,7 +3,8 @@ guid: f7ea36be73fb127448900143ebf6c284
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - fishBombSettings: {fileID: 11400000, guid: 7c0d22ff124e3a54aaf6a454fd2b617a, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
