@@ -27,6 +27,11 @@ namespace GMTK_2023.Behaviours
 
             m_isAlive = false;
             gameObject.SetActive(false);
+
+            if (IsActiveInPool)
+            {
+                ReleaseFromPool();
+            }
         }
 
         public override void OnGet()

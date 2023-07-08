@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3a7f58f1bcc9384bbf582c3f8c8a0e1, type: 3}
   m_Name: FishBaitSettings
   m_EditorClassIdentifier: 
-  m_baitTimeCountdown: 10
-  m_baitEnabled: 0
+  fishTag: Fish
+  killRadius: 1

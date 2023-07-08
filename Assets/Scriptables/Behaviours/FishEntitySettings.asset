@@ -15,6 +15,6 @@ MonoBehaviour:
   rotationSmoothTime: 0
   moveSpeed: 1
   fastMoveSpeed: 2
-  minDistanceToInterestedPoint: 0.1
+  minDistanceToInterestedPoint: 0.25
   forceFieldTag: ForceField
   fishBaitTag: FishBait

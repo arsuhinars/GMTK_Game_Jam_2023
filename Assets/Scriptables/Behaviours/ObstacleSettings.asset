@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e416a673da6b5f44d84b04e47f2c40e9, type: 3}
   m_Name: ObstacleSettings
   m_EditorClassIdentifier: 
-  playerTag: Player
+  fishTag: Fish

@@ -1,35 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using GMTK_2023.Scriptables;
+using UnityEngine;
 
 namespace GMTK_2023.Behaviours
 {
-    public class FishBait : MonoBehaviour
+    [RequireComponent(typeof(SphereCollider))]
+    public class FishBait : LevelItem
     {
-        [SerializeField] FishBaitSettings fishBaitSettings;
-        float m_baitTimer=0f;
-        // Start is called before the first frame update
-        void Start()
-        {
+        public float Radius => m_collider.radius;
 
+        [SerializeField] private FishBaitSettings m_settings;
+        private SphereCollider m_collider;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            m_collider = GetComponent<SphereCollider>();
         }
 
-        // Update is called once per frame
-        void Update()
+        private void OnTriggerStay(Collider other)
         {
-            m_baitTimer+=Time.deltaTime;
-
-            if(m_baitTimer>fishBaitSettings.m_baitTimeCountdown)
+            if (other.CompareTag(m_settings.fishTag))
             {
-                fishBaitSettings.m_baitEnabled=!fishBaitSettings.m_baitEnabled;
-                m_baitTimer=0;
+                float dist = Vector3.Distance(other.transform.position, transform.position);
+                if (dist < m_settings.killRadius)
+                {
+                    other.GetComponent<ISpawnable>().Kill();
+                    Kill();
+                }
             }
-        }
-
-        public bool isBaitEnabled()
-        {
-            return fishBaitSettings.m_baitEnabled;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace GMTK_2023.Behaviours
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag(m_settings.playerTag))
+            if (other.CompareTag(m_settings.fishTag))
             {
                 other.GetComponent<ISpawnable>().Kill();
             }
