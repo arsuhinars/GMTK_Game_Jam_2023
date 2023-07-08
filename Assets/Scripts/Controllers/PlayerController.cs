@@ -1,5 +1,6 @@
 using GMTK_2023.Behaviours;
 using GMTK_2023.Scriptables;
+using GMTK_2023.UI.Elements;
 using UnityEngine;
 
 namespace GMTK_2023.Controllers
@@ -8,6 +9,10 @@ namespace GMTK_2023.Controllers
     {
         [SerializeField] private PlayerSettings m_settings;
         [SerializeField] private ForceField m_forceField;
+
+        private CameraController m_camera;
+        private PlayerClickableArea m_clickableArea;
+        private Vector3 m_dragStartPos;
 
         private void Awake()
         {
@@ -18,25 +23,39 @@ namespace GMTK_2023.Controllers
         {
             m_forceField.gameObject.SetActive(false);
 
-            //m_clickArea.OnClick += OnScreenClick;
+            m_camera = ControllersFacade.Instance.CameraController;
+            m_clickableArea = ControllersFacade.Instance.UIController.ClickableArea;
+            m_clickableArea.OnDragStart += OnDragStart;
+            m_clickableArea.OnDragStay += OnDrag;
         }
 
         private void OnDestroy()
         {
-            //if (m_clickArea)
-            //{
-            //    m_clickArea.OnClick -= OnScreenClick;
-            //}
+            if (m_clickableArea)
+            {
+                m_clickableArea.OnDragStart -= OnDragStart;
+                m_clickableArea.OnDragStay -= OnDrag;
+            }
         }
 
-        public void OnScreenClick(Vector2 pos)
+        private void OnDragStart(Vector2 screenPos)
         {
-            m_forceField.gameObject.SetActive(true);
+            m_dragStartPos = m_camera.PlaneRaycast(screenPos);
 
-            var point = ControllersFacade.Instance.CameraController.PlaneRaycast(pos);
+            m_forceField.gameObject.SetActive(false);
+            m_forceField.transform.position = m_dragStartPos;
+        }
 
-            m_forceField.Direction = Vector3.forward;
-            m_forceField.transform.position = point;
+        private void OnDrag(Vector2 screenPos)
+        {
+            var pos = m_camera.PlaneRaycast(screenPos);
+            bool isDragActive = Vector3.Distance(pos, m_dragStartPos) > m_settings.minDragRadius;
+
+            m_forceField.gameObject.SetActive(isDragActive);
+            if (isDragActive)
+            {
+                m_forceField.Direction = pos - m_dragStartPos;
+            }
         }
     }
 }

@@ -4,13 +4,25 @@ using UnityEngine.EventSystems;
 
 namespace GMTK_2023.UI.Elements
 {
-    public class PlayerClickableArea : MonoBehaviour, IPointerClickHandler
+    public class PlayerClickableArea : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
     {
-        public event Action<Vector2> OnClick;
+        public event Action<Vector2> OnDragStart;
+        public event Action<Vector2> OnDragStay;
+        public event Action<Vector2> OnDragEnd;
 
-        public void OnPointerClick(PointerEventData eventData)
+        public void OnBeginDrag(PointerEventData eventData)
         {
-            OnClick?.Invoke(eventData.position);
+            OnDragStart?.Invoke(eventData.position);
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            OnDragStay?.Invoke(eventData.position);
+        }
+
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            OnDragEnd?.Invoke(eventData.position);
         }
     }
 }
