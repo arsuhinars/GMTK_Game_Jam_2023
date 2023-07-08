@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e8c7193155675c438238a2c382c5169, type: 3}
   m_Name: FishManagerSettings
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1453344451178809931, guid: cf67c23160df54e4f8cdcc15b9c5540a, type: 3}
+  prefab: {fileID: 7108942657690509832, guid: cf67c23160df54e4f8cdcc15b9c5540a, type: 3}
   fishSwimDepth: 0.2
   initialFishCount: 10
   maxFishGroupRadius: 5
