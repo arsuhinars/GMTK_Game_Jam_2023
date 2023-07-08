@@ -110,11 +110,11 @@ namespace GMTK_2023.Managers
             }
             else if (Random.Range(0, 2) != 0)
             {
-                // Spawn on the front
+                // Spawn on the front/back side
                 pos = new Vector3(
                     Random.Range(bounds.min.x + 0.01f, bounds.max.x - 0.01f),
                     m_settings.waterLevelY,
-                    bounds.max.z
+                    camera.MoveDirection.z > 0f ? bounds.max.z : bounds.min.z
                 );
             }
             else

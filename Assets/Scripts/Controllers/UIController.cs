@@ -13,16 +13,23 @@ namespace GMTK_2023.Controllers
 
         private void Start()
         {
-            GameManager.Instance.OnEnterMenu += OnEnterMenu;
-            GameManager.Instance.OnStart += OnGameStart;
-            GameManager.Instance.OnEnd += OnGameEnd;
-            GameManager.Instance.OnPause += OnGamePause;
-            GameManager.Instance.OnResume += OnGameResume;
+            var manager = GameManager.Instance;
+            manager.OnStart += OnGameStart;
+            manager.OnEnd += OnGameEnd;
+            manager.OnPause += OnGamePause;
+            manager.OnResume += OnGameResume;
         }
 
-        private void OnEnterMenu()
+        private void OnDestroy()
         {
-            UIManager.Instance.SetView("MainMenu");
+            var manager = GameManager.Instance;
+            if (manager != null)
+            {
+                manager.OnStart -= OnGameStart;
+                manager.OnEnd -= OnGameEnd;
+                manager.OnPause -= OnGamePause;
+                manager.OnResume -= OnGameResume;
+            }
         }
 
         private void OnGameStart()

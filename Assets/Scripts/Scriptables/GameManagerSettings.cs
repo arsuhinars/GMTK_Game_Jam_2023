@@ -6,5 +6,7 @@ namespace GMTK_2023.Scriptables
     public class GameManagerSettings : ScriptableObject
     {
         public float secondsForScore = 0f;
+        [Space]
+        public string mainMenuScene;
     }
 }

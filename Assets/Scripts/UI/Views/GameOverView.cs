@@ -1,4 +1,5 @@
 ﻿using GMTK_2023.Managers;
+using GMTK_2023.UI.Elements;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,10 +10,8 @@ namespace GMTK_2023.UI.Views
         [SerializeField] private Button m_retryButton;
         [SerializeField] private Button m_quitButton;
 
-        protected override void Start()
+        private void Start()
         {
-            base.Start();
-
             m_retryButton.onClick.AddListener(OnRetryClick);
             m_quitButton.onClick.AddListener(OnQuitClick);
         }

@@ -1,4 +1,6 @@
-﻿using GMTK_2023.Managers;
+﻿using DG.Tweening;
+using GMTK_2023.Managers;
+using GMTK_2023.UI.Elements;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,18 +10,41 @@ namespace GMTK_2023.UI.Views
     {
         [SerializeField] private Button m_startButton;
         [SerializeField] private Button m_quitButton;
+        [SerializeField] private RectTransform m_movingMenu;
 
-        protected override void Start()
+        private Vector2 m_menuInitialPos;
+
+        private void Start()
         {
-            base.Start();
+            m_menuInitialPos = m_movingMenu.anchoredPosition;
 
             m_startButton.onClick.AddListener(OnStartClick);
             m_quitButton.onClick.AddListener(OnQuitClick);
         }
 
+        protected override void PlayCustomTransitionIn()
+        {
+            m_movingMenu
+                .DOAnchorPos(m_menuInitialPos, m_transitionDuration)
+                .From(m_menuInitialPos + Vector2.up * m_movingMenu.sizeDelta.y)
+                .SetEase(Ease.OutBounce, 0.5f)
+                .onComplete += EnableCanvas;
+        }
+
+        protected override void PlayCustomTransitionOut()
+        {
+            m_movingMenu
+                .DOAnchorPos(
+                    m_menuInitialPos + Vector2.up * m_movingMenu.sizeDelta.y,
+                    m_transitionDuration
+                )
+                .From(m_menuInitialPos)
+                .onComplete += DisableCanvas;
+        }
+
         private void OnStartClick()
         {
-            GameManager.Instance.StartGame();
+            UIManager.Instance.SetView("Comics");
         }
 
         private void OnQuitClick()

@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: GameManagerSettings
   m_EditorClassIdentifier: 
   secondsForScore: 1
+  mainMenuScene: MainMenu

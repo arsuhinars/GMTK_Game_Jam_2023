@@ -1,4 +1,5 @@
 using GMTK_2023.Managers;
+using GMTK_2023.UI.Elements;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -13,9 +14,8 @@ namespace GMTK_2023.UI.Views
 
         private StringBuilder m_scoreTextBuilder = new();
 
-        protected override void Start()
+        private void Start()
         {
-            base.Start();
             m_pauseButton.onClick.AddListener(OnPauseClick);
             GameManager.Instance.Score.OnValueChanged += UpdateScoreText;
         }

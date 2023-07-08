@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace GMTK_2023.UI
+namespace GMTK_2023.UI.Elements
 {
     public enum TransitionType
     {
@@ -15,7 +15,7 @@ namespace GMTK_2023.UI
         public bool IsShowed => m_isShowed;
 
         [SerializeField] private TransitionType m_transitionType;
-        [SerializeField] private float m_transitionDuration;
+        [SerializeField] protected float m_transitionDuration;
 
         private bool m_isShowed = false;
         private Canvas m_canvas;
@@ -38,6 +38,9 @@ namespace GMTK_2023.UI
                     PlayFadeIn();
                     break;
                 case TransitionType.Custom:
+                    m_canvas.enabled = true;
+                    m_canvasGroup.blocksRaycasts = false;
+
                     PlayCustomTransitionIn();
                     break;
             }
@@ -60,6 +63,9 @@ namespace GMTK_2023.UI
                     PlayFadeOut();
                     break;
                 case TransitionType.Custom:
+                    m_canvas.enabled = true;
+                    m_canvasGroup.blocksRaycasts = false;
+
                     PlayCustomTransitionOut();
                     break;
             }
@@ -91,10 +97,7 @@ namespace GMTK_2023.UI
         {
             m_canvas = GetComponent<Canvas>();
             m_canvasGroup = GetComponent<CanvasGroup>();
-        }
 
-        protected virtual void Start()
-        {
             DisableCanvas();
         }
 
