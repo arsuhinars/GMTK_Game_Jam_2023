@@ -84,7 +84,7 @@ namespace GMTK_2023.Behaviours
 
         protected virtual void Start()
         {
-            Spawn();
+            //Spawn();
 
             GameManager.Instance.OnStart += OnGameStart;
         }
