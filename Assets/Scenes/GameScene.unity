@@ -334,6 +334,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 106589705599246056, guid: 11c978ea492202d478ad09793836d184, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 106589705599246056, guid: 11c978ea492202d478ad09793836d184, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 328430a845b1eaa4cbaf07d6978eb348, type: 3}
     - target: {fileID: 176339244879468783, guid: 11c978ea492202d478ad09793836d184, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -358,6 +366,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 615237242437722179, guid: 11c978ea492202d478ad09793836d184, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 615237242437722179, guid: 11c978ea492202d478ad09793836d184, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2d4ad4ebfaafebf44b4fa34c584f103f, type: 3}
     - target: {fileID: 1132242807869354522, guid: 11c978ea492202d478ad09793836d184, type: 3}
       propertyPath: m_Name
       value: UI
@@ -390,6 +406,22 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 963194227}
+    - target: {fileID: 2846086911213237154, guid: 11c978ea492202d478ad09793836d184, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3194266810936258330, guid: 11c978ea492202d478ad09793836d184, type: 3}
+      propertyPath: m_Transition
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3194266810936258330, guid: 11c978ea492202d478ad09793836d184, type: 3}
+      propertyPath: m_SpriteState.m_PressedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5c4e678d60b47e847a65db55df3de8a2, type: 3}
+    - target: {fileID: 3194266810936258330, guid: 11c978ea492202d478ad09793836d184, type: 3}
+      propertyPath: m_SpriteState.m_HighlightedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e3a9a6f7c5f9e8c479855f5938ab47b1, type: 3}
     - target: {fileID: 3346701639367342851, guid: 11c978ea492202d478ad09793836d184, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -482,6 +514,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6879256246598474340, guid: 11c978ea492202d478ad09793836d184, type: 3}
+      propertyPath: m_Transition
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6879256246598474340, guid: 11c978ea492202d478ad09793836d184, type: 3}
+      propertyPath: m_SpriteState.m_PressedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c5d953713bbc04242b87b3bf9c58b360, type: 3}
+    - target: {fileID: 6879256246598474340, guid: 11c978ea492202d478ad09793836d184, type: 3}
+      propertyPath: m_SpriteState.m_HighlightedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e4bf65eccdbc40b49be32fce3fae520f, type: 3}
     - target: {fileID: 7764541615936424672, guid: 11c978ea492202d478ad09793836d184, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -559,7 +603,9 @@ PrefabInstance:
       value: -24
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 8783896615869462937, guid: 11c978ea492202d478ad09793836d184, type: 3}
+    - {fileID: 6814096816225238192, guid: 11c978ea492202d478ad09793836d184, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11c978ea492202d478ad09793836d184, type: 3}
