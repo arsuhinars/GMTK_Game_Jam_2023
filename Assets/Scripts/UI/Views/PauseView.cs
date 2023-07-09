@@ -20,11 +20,13 @@ namespace GMTK_2023.UI.Views
 
         private void OnResumeClick()
         {
+            SoundManager.Instance.PlaySound(SoundEffect.UIClick);
             GameManager.Instance.ResumeGame();
         }
 
         private void OnRetryClick()
         {
+            SoundManager.Instance.PlaySound(SoundEffect.UIClick);
             GameManager.Instance.StartGame();
         }
 

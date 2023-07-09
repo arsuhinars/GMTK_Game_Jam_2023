@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace GNT.UI.Elements
+namespace GMTK_2023.UI.Elements
 {
     [RequireComponent(typeof(Image))]
     public class SoundButton : Selectable
@@ -44,6 +44,8 @@ namespace GNT.UI.Elements
 
             var soundState = SoundManager.Instance.IsSoundOn;
             soundState.Value = !soundState.Value;
+
+            SoundManager.Instance.PlaySound(SoundEffect.UIClick);
         }
 
         private void OnSoundStateChange(bool oldVal, bool newVal)
