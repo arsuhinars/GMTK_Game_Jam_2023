@@ -39,7 +39,7 @@ namespace GMTK_2023.Managers
         {
             m_state = GameState.Started;
             m_score.Value = 0;
-            Time.timeScale = 4f;
+            Time.timeScale = 1f;
 
             OnStart?.Invoke();
         }
@@ -72,7 +72,7 @@ namespace GMTK_2023.Managers
             }
 
             m_state = GameState.Started;
-            Time.timeScale = 4f;
+            Time.timeScale = 1f;
 
             OnResume?.Invoke();
         }
