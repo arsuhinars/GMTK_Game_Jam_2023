@@ -95,6 +95,8 @@ namespace GMTK_2023.Behaviours
             {
                 GameManager.Instance.OnStart -= OnGameStart;
             }
+
+            m_tween?.Kill();
         }
 
         protected virtual void Update()
