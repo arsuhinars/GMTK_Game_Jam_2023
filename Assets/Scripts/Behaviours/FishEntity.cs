@@ -1,9 +1,7 @@
 using UnityEngine;
 using GMTK_2023.Scriptables;
 using GMTK_2023.Managers;
-using System.Drawing;
 using GMTK_2023.Utils;
-using Unity.VisualScripting;
 
 namespace GMTK_2023.Behaviours
 {
@@ -41,6 +39,10 @@ namespace GMTK_2023.Behaviours
         public void Kill()
         {
             m_isAlive = false;
+
+            ParticlesManager.Instance.PlayParticles(
+                ParticleType.WaterSplat, transform.position
+            );
 
             ReleaseFromPool();
         }

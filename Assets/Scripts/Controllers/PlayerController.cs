@@ -37,7 +37,7 @@ namespace GMTK_2023.Controllers
         {
             m_dragStartPos = m_camera.PlaneRaycast(screenPos);
 
-            m_forceField.gameObject.SetActive(false);
+            //m_forceField.gameObject.SetActive(false);
             m_forceField.transform.position = m_dragStartPos;
         }
 

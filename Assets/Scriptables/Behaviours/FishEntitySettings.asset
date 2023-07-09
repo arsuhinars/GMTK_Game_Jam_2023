@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1102d7a7985a0f14f8ca7767b5c9408f, type: 3}
   m_Name: FishEntitySettings
   m_EditorClassIdentifier: 
-  rotationSmoothTime: 0
-  moveSpeed: 2
-  fastMoveSpeed: 4
-  minDistanceToInterestedPoint: 0.25
-  directionSmoothTime: 0.3
+  moveSpeed: 6
+  fastMoveSpeed: 8
+  minDistanceToInterestedPoint: 0.4
+  directionSmoothTime: 0.2
   forceFieldTag: ForceField
   fishBaitTag: FishBait

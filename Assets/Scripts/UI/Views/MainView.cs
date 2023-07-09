@@ -44,6 +44,7 @@ namespace GMTK_2023.UI.Views
 
         private void OnStartClick()
         {
+            SoundManager.Instance.PlaySound(SoundEffect.UIClick);
             UIManager.Instance.SetView("Comics");
         }
 

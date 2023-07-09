@@ -33,6 +33,10 @@ namespace GMTK_2023.Behaviours
                 }
             }
 
+            ParticlesManager.Instance.PlayParticles(
+                ParticleType.Explosion, transform.position
+            );
+
             Kill();
         }
     }
