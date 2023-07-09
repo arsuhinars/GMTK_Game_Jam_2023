@@ -128,6 +128,7 @@ namespace GMTK_2023.Managers
             }
 
             obj.transform.position = pos;
+            obj.transform.rotation = Quaternion.AngleAxis(Random.Range(0f, 360f), Vector3.up);
         }
     }
 }

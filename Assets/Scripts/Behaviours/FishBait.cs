@@ -10,13 +10,19 @@ namespace GMTK_2023.Behaviours
         public float Radius => m_triggerSphere.radius;
 
         [SerializeField] private FishBaitSettings m_settings;
-        [SerializeField] private SphereCollider m_triggerSphere;
+        private SphereCollider m_triggerSphere;
 
         public void Throw(Vector3 origin, Vector3 direction)
         {
             Rigidbody.useGravity = true;
             Rigidbody.position = origin;
             Rigidbody.AddForce(direction.normalized * m_settings.throwSpeed, ForceMode.Impulse);
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+            m_triggerSphere = GetComponent<SphereCollider>();
         }
 
         private void FixedUpdate()
