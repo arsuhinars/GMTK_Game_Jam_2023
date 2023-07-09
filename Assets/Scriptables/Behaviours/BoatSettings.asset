@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: BoatSettings
   m_EditorClassIdentifier: 
   bombSpawnChance: 0.326
-  cooldownTime: 5
+  cooldownTime: 6
   throwAngle: 30
   throwOffset: {x: 0, y: 1.5, z: 0}

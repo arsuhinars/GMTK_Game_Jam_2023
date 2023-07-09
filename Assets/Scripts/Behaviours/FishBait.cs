@@ -11,9 +11,13 @@ namespace GMTK_2023.Behaviours
 
         [SerializeField] private FishBaitSettings m_settings;
         private SphereCollider m_triggerSphere;
+        private bool m_isBelowWater;
 
         public void Throw(Vector3 origin, Vector3 direction)
         {
+            m_isBelowWater = false;
+            m_triggerSphere.enabled = false;
+
             Rigidbody.useGravity = true;
             Rigidbody.position = origin;
             Rigidbody.AddForce(direction.normalized * m_settings.throwSpeed, ForceMode.Impulse);
@@ -33,11 +37,16 @@ namespace GMTK_2023.Behaviours
             }
 
             bool isBelowWater = Rigidbody.position.y <= LevelManager.Instance.WaterLevelY;
-            m_triggerSphere.enabled = isBelowWater;
-            if (isBelowWater)
+            if (isBelowWater && !m_isBelowWater)
             {
+                m_isBelowWater = true;
+                m_triggerSphere.enabled = true;
                 Rigidbody.velocity = Vector3.zero;
                 Rigidbody.useGravity = false;
+
+                ParticlesManager.Instance.PlayParticles(
+                    ParticleType.WaterSplat, transform.position
+                );
             }
         }
 
